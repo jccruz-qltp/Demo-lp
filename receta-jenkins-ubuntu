@@ -1,0 +1,21 @@
+#descarga la llave de kenkins
+wget -O /usr/share/keyrings/jenkins-keyring.asc   https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+#agrega el repositorio de jenkins a la lista de la distro
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]   https://pkg.jenkins.io/debian-stable binary/ | sudo tee   /etc/apt/sources.list.d/jenkins.list > /dev/null
+#actualiza los paquetes
+apt update
+#instala java y sus dependecias
+apt install -y fontconfig openjdk-17-jre
+#instala Podman
+apt install podman podman-docker slirp4netns
+
+#setup registry for podman
+echo "
+[registries.search]
+registries = ['docker.io']" | sudo tee -a /etc/containers/registries.conf
+#install jenkins
+apt install jenkins
+#permite que jenkins tenga multiples uid (para rootless
+usermod --add-subuids 1000-165535 --add-subgids 1000-165535 jenkins
+#permite que jenkins tenga el tipo de sesion correcta para usar podman
+loginctl enable-linger $id -u jenkins)
