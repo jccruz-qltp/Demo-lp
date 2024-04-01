@@ -2,15 +2,10 @@ pipeline {
   environment {
     imagename = "qltp/demojenkins"
     registry = "https://registry.hub.docker.com" 
-    registryCredential = 'dockerhub_id"
+    registryCredential = "dockerhub_id"
     dockerImage = '' 
   } 
   agent any
-        
-
-
-
-    def app
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
